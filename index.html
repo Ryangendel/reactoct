@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="root1"></div>
+
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script type="text/javascript" src="https://unpkg.com/babel-standalone@6/babel.js"></script>
+  <script type="module">
+    import Formik from 'https://cdn.jsdelivr.net/npm/formik@2.4.5/+esm'
+  </script>
+
+
+
+  <!-- 
+  Passing in props (properties)
+  Understanding state
+  Lifecycle methods
+  Passing data from one compenent to another
+  Unidrectional Dataflow/Nesting Components
+  CRUD
+  I/O
+ -->
+
+
+  <script type="text/babel">
+    // Define a component called Greetings
+    function Greetings() {
+      return <h1>Anything i want here, banana apple runa</h1>;
+    }
+
+    function Dogs(props) {
+      var y = "banana"
+      var obj = {
+        a: 1,
+        b: 2
+      }
+      // console.log(props)
+      function handleClick(e) {
+        // console.log(e.target.innerHTML)
+      }
+
+      return (
+        <div>
+          <h1>{1 + 1 + 1}</h1>
+          <h2>{props.dogName}</h2>
+          <button onClick={handleClick}></button>
+        </div>
+      )
+    }
+
+    function German(props){
+      return(
+        <div>
+          <h1>INSIDE GERMAN COMPONENT is from {props.country}</h1>
+        </div>
+      )
+    }
+
+var USSTATES = ["Colorado", "Utah", "New Mexico"]
+
+    function Pitbull(props){
+      var country = ""
+      if(USSTATES.includes(props.USstate)){
+        country = "United States"
+      } else{
+        country = "not the US"
+      }
+
+      return(
+        <div>
+          <h1>INSIDE PITBull COMPONENT and the dog is from {props.USstate}</h1>
+          <German country={country}/>
+        </div>
+      )
+    }
+
+
+    function Bulldog(props){
+      return(
+        <div>
+          <h1>INSIDE BULLODG COMPONENT and the dog is from {props.city}</h1>
+          <Pitbull USstate={props.USstate}/>
+        </div>
+      )
+    }
+
+    function Number(props){
+      // console.log(props)
+    var newNumber = 0
+      function changeNumber(){
+        newNumber = props.number + 3
+        props.setTheNumber(newNumber)
+      }
+      
+      return(
+        <div>
+          <h1>{props.number}</h1>
+          <button onClick={changeNumber}>add one to the number</button>
+        </div>
+      )
+    }
+
+
+    function Greetings1() {
+      var [number, setNumber] = React.useState(100101) 
+      var [dogName1, setDogName1] = React.useState("Runa")
+      var [pokeChar1, setPokeChar1] = React.useState({})
+      var [pokeChar1Img, setPokeChar1Img] = React.useState("")
+
+      var dogName1 = "Runa"
+      var dogName2 = "Coco"
+      var dogName3 = "Nova"
+      var caretakerName = "Ryan"
+      var city = "Denver"
+      var apple = "banana"
+      var pokeName = "bulbasaur"
+      var pokeName1 = "charizard"
+     
+
+      function changeNumber(){
+          var newNumber = number + 1
+          setNumber(newNumber)
+      }
+
+
+      React.useEffect(()=>{
+        fetch(`https://pokeapi.co/api/v2/pokemon/${pokeName1}`)
+        .then(data=>{
+          if(data.status==404){
+            return {value:"you made an error guy"}
+          }else{
+            return data.json()
+          }
+      })
+        .then(cleanedData=>{
+          //   console.log(cleanedData.height)
+          //   console.log(cleanedData.sprites.back_shiny)
+          // document.getElementById("joke").innerHTML = cleanedData.base_experience
+          // document.getElementById("height").innerHTML = cleanedData.height
+          // document.getElementById("image").src = cleanedData.sprites.back_shiny
+          // console.log(cleanedData)
+          setPokeChar1(cleanedData)
+          setPokeChar1Img(cleanedData.sprites.back_shiny)
+
+        })
+        console.log("inside lifecycle method")
+      })
+
+
+
+//           <img id="image" src={pokeChar1.sprites.back_default}></img>
+// {console.log("------------------")}
+          // {console.log(pokeChar1.sprites.back_default)}
+//           {console.log("------------------")}
+// <img id="image" src={pokeChar1.sprites.back_default?pokeChar1.sprites.back_default:""}></img>
+
+      return (
+        <div id="wrapper">
+          
+          <h1 id="joke">{pokeChar1.base_experience}</h1>
+          <h1 id="height">{pokeChar1.height}</h1>
+          <img src={pokeChar1Img}></img>
+          <Bulldog city={city} USstate={"New York"}/>
+          <Greetings />
+          <Dogs dogName={"Value1"} age={4}/>
+          <Number number={number} setTheNumber={setNumber} apple="banana" runa="bestdog"/>
+          <p>this ia paragraph</p>
+          <h1>Anything i want here, Skadi Hunter Luna</h1>
+        </div>
+      )
+    }
+
+    // Render the component to the DOM
+    ReactDOM.render(
+      <Greetings1 />,
+      document.getElementById("root1")
+    );
+  </script>
+
+</body>
+
+</html>
